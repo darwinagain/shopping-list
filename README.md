@@ -2,9 +2,9 @@
 
 This is a simple shopping list app to help me learn React better. It leverages `useState` and `useEffect` to help with state management. I also used `@material-ui/core` and `@material-ui/icons` to make it look a little nicer. To get these libraries, run the below commands from within the project directory.
 
-`npm install @material-ui/core`
+### `npm install @material-ui/core`
 
-`npm install @material-ui/icons`
+### `npm install @material-ui/icons`
 
 The main idea behind this app is to add items you need to buy and select the quantity needed. From there you will see a total quantity at the bottom right. You can click thew checkbox to the left of the item name to mark it as completed and the trashcan icon to the right of the quantity to delete the item permanently.
 
