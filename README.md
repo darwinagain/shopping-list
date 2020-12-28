@@ -8,6 +8,10 @@ This is a simple shopping list app to help me learn React better. It leverages `
 
 The main idea behind this app is to add items you need to buy and select the quantity needed. From there you will see a total quantity at the bottom right. You can click thew checkbox to the left of the item name to mark it as completed and the trashcan icon to the right of the quantity to delete the item permanently.
 
+<p align="center">
+<img width="400" alt="Screen Shot 2020-12-28 at 9 54 34 AM" src="https://user-images.githubusercontent.com/59901752/103229020-d0ac3200-48f7-11eb-8f0e-f398e296a507.png">
+</p>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
