@@ -16,15 +16,16 @@ import "./App.css";
 const LOCAL_STORAGE_KEY = "123456";
 
 function App() {
-  const [items, updateItems] = useState([]);
+  const [items, setItems] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [totalItemCount, setTotalItemCount] = useState(0);
 
   useEffect(() => {
     // fires when app component mounts to the DOM
-    const storageTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (storageTodos) {
-      updateItems(storageTodos);
+    const storageItems = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (storageItems) {
+      setItems(storageItems);
+      // setTotalItemCount(storageItems);
     }
   }, []);
 
@@ -43,7 +44,7 @@ function App() {
 
     const newItems = [...items, newItem];
 
-    updateItems(newItems);
+    setItems(newItems);
     setInputValue("");
     setTotalItemCount(totalItemCount + 1);
   };
@@ -53,7 +54,7 @@ function App() {
 
     const newItems = items.filter((item) => item.id !== id);
 
-    updateItems(newItems);
+    setItems(newItems);
     setTotalItemCount(totalItemCount - item.quantity);
   };
 
@@ -62,7 +63,7 @@ function App() {
 
     newItems[index].completed = !newItems[index].completed;
 
-    updateItems(newItems);
+    setItems(newItems);
   };
 
   const handleQuantityIncrease = (index) => {
@@ -70,7 +71,7 @@ function App() {
 
     newItems[index].quantity++;
 
-    updateItems(newItems);
+    setItems(newItems);
     calculateTotal();
   };
 
@@ -81,7 +82,7 @@ function App() {
       newItems[index].quantity--;
     }
 
-    updateItems(newItems);
+    setItems(newItems);
     calculateTotal();
   };
 
@@ -95,18 +96,19 @@ function App() {
 
   return (
     <div className="app-background">
-      <div className="main-container">
-        <header className="App-header">
+      <form className="main-container">
+        <header className="app-header">
           <h1>Shopping List</h1>
         </header>
         <div className="add-item-box">
           <TextField
+            type="text"
             value={inputValue}
             onChange={(event) => setInputValue(event.target.value)}
             className="add-item-input"
             placeholder="Add an item..."
           />
-          <Button onClick={() => addItem()}>
+          <Button type="submit" onClick={() => addItem()}>
             <AddBoxIcon style={{ fill: "black" }} />
           </Button>
         </div>
@@ -146,7 +148,7 @@ function App() {
           ))}
         </div>
         <div className="total">Total: {totalItemCount}</div>
-      </div>
+      </form>
     </div>
   );
 }
