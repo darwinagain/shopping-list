@@ -1,6 +1,6 @@
 # Shopping List
 
-This is a simple shopping list app to help me learn React better. It leverages `useState` and `useEffect` to help with state management. I also used `@material-ui/core` and `@material-ui/icons` to make it look a little nicer. To get these libraries, run the below commands from within the project directory.
+This is a simple shopping list app to help me learn React better. It leverages `useState` to help with state management. I also used `@material-ui/core` and `@material-ui/icons` to make it look a little nicer. To get these libraries, run the below commands from within the project directory.
 
 ### `npm install @material-ui/core`
 
