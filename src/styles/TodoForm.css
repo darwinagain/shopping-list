@@ -1,0 +1,34 @@
+* {
+  font-size: 36px;
+}
+
+.add-item-box {
+  background: #eeecec;
+  color: #eeecec;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.add-item-box svg {
+  margin: 5px;
+}
+
+.add-item-input {
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  color: #eeecec;
+  width: 100%;
+  height: 30px;
+}
+
+input::placeholder {
+  color: #eeecec;
+}
+input:focus {
+  outline: 0;
+}
