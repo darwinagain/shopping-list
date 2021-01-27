@@ -1,17 +1,7 @@
 import React, { useState } from "react";
-import {
-  Checkbox,
-  IconButton,
-  ListItem,
-  Typography,
-  Button,
-  TextField,
-} from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import AddBoxIcon from "@material-ui/icons/AddBox";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import "./App.css";
+import "./styles/App.css";
+import TodoForm from "./components/TodoForm";
+import TodoList from "./components/TodoList";
 
 function App() {
   const initialItems = [
@@ -20,176 +10,64 @@ function App() {
     { index: 2, name: "paper towels", quantity: 1, completed: false },
   ];
 
-  const TodoForm = ({ addItem }) => {
-    const [inputValue, setInputValue] = useState("");
+  const [items, setItems] = useState(initialItems);
+  const [totalItemCount, setTotalItemCount] = useState(7);
 
-    const addItemButtonClick = (event) => {
-      event.preventDefault();
-
-      if (inputValue !== "") {
-        addItem(inputValue);
-        setInputValue("");
-      }
+  const addItem = (name) => {
+    const newItem = {
+      index: items.length,
+      name,
+      quantity: 1,
+      completed: false,
     };
 
-    return (
-      <form>
-        <div className="add-item-box">
-          <TextField
-            type="text"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            className="add-item-input"
-            placeholder="Add an item..."
-          />
-          <Button type="submit" onClick={addItemButtonClick}>
-            <AddBoxIcon style={{ fill: "black" }} />
-          </Button>
-        </div>
-      </form>
-    );
+    const newItems = [...items, newItem];
+
+    setItems(newItems);
+    setTotalItemCount(totalItemCount + 1);
   };
 
-  const Todo = ({
-    index,
-    name,
-    quantity,
-    completed,
-    removeItem,
-    toggleComplete,
-    increaseQuantity,
-    decreaseQuantity,
-  }) => {
-    const handleRemoveButtonClick = () => {
-      removeItem(index);
-    };
-    const handleCompleteButtonClick = () => {
-      toggleComplete(index);
-    };
+  const removeItem = (index) => {
+    const newItems = items.filter((item) => item.index !== index);
 
-    const handleQuantityIncreaseButtonClick = () => {
-      increaseQuantity(index);
-    };
-    const handleQuantityDecreaseButtonClick = () => {
-      decreaseQuantity(index);
-    };
-
-    return (
-      <div className="item-container">
-        <div className="item-name">
-          <ListItem>
-            <Checkbox
-              style={{ color: "black" }}
-              checked={completed}
-              onClick={handleCompleteButtonClick}
-            />
-            <Typography
-              variant="body1"
-              style={{
-                textDecoration: completed ? "line-through" : null,
-              }}
-            >
-              {name}
-            </Typography>
-          </ListItem>
-        </div>
-        <div className="quantity">
-          <IconButton onClick={() => handleQuantityDecreaseButtonClick(index)}>
-            <ChevronLeftIcon style={{ fill: "black" }} />
-          </IconButton>
-          <span> {quantity} </span>
-          <IconButton onClick={() => handleQuantityIncreaseButtonClick(index)}>
-            <ChevronRightIcon style={{ fill: "black" }} />
-          </IconButton>
-        </div>
-        <IconButton onClick={handleRemoveButtonClick}>
-          <DeleteForeverIcon style={{ fill: "black" }} />
-        </IconButton>
-      </div>
-    );
+    setItems(newItems);
+    calculateTotal(newItems);
   };
 
-  const TodoApp = () => {
-    const [items, setItems] = useState(initialItems);
-    const [totalItemCount, setTotalItemCount] = useState(7);
+  const toggleComplete = (index) => {
+    const newItems = [...items];
 
-    const addItem = (name) => {
-      const newItem = {
-        index: items.length,
-        name,
-        quantity: 1,
-        completed: false,
-      };
+    newItems[index].completed = !newItems[index].completed;
 
-      const newItems = [...items, newItem];
+    setItems(newItems);
+  };
 
-      setItems(newItems);
-      setTotalItemCount(totalItemCount + 1);
-    };
+  const increaseQuantity = (index) => {
+    const newItems = [...items];
 
-    const removeItem = (index) => {
-      const newItems = items.filter((item) => item.index !== index);
+    newItems[index].quantity++;
 
-      setItems(newItems);
-      calculateTotal(newItems);
-    };
+    setItems(newItems);
+    calculateTotal(newItems);
+  };
 
-    const toggleComplete = (index) => {
-      const newItems = [...items];
+  const decreaseQuantity = (index) => {
+    const newItems = [...items];
 
-      newItems[index].completed = !newItems[index].completed;
+    if (newItems[index].quantity > 1) {
+      newItems[index].quantity--;
+    }
 
-      setItems(newItems);
-    };
+    setItems(newItems);
+    calculateTotal(newItems);
+  };
 
-    const increaseQuantity = (index) => {
-      const newItems = [...items];
+  const calculateTotal = (items) => {
+    const totalItemCount = items.reduce((total, item) => {
+      return total + item.quantity;
+    }, 0);
 
-      newItems[index].quantity++;
-
-      setItems(newItems);
-      calculateTotal(newItems);
-    };
-
-    const decreaseQuantity = (index) => {
-      const newItems = [...items];
-
-      if (newItems[index].quantity > 1) {
-        newItems[index].quantity--;
-      }
-
-      setItems(newItems);
-      calculateTotal(newItems);
-    };
-
-    const calculateTotal = (items) => {
-      const totalItemCount = items.reduce((total, item) => {
-        return total + item.quantity;
-      }, 0);
-
-      setTotalItemCount(totalItemCount);
-    };
-
-    return (
-      <p>
-        <TodoForm addItem={addItem} />
-        <div className="item-list">
-          {items.map((item, index) => (
-            <Todo
-              name={item.name}
-              quantity={item.quantity}
-              completed={item.completed}
-              index={item.index}
-              removeItem={removeItem}
-              toggleComplete={toggleComplete}
-              increaseQuantity={increaseQuantity}
-              decreaseQuantity={decreaseQuantity}
-            />
-          ))}
-        </div>
-        <div className="total">Total: {totalItemCount}</div>
-      </p>
-    );
+    setTotalItemCount(totalItemCount);
   };
 
   return (
@@ -198,7 +76,15 @@ function App() {
         <header className="app-header">
           <h1>Shopping List</h1>
         </header>
-        <TodoApp />
+        <TodoForm addItem={addItem} />
+        <TodoList
+          items={items}
+          removeItem={removeItem}
+          toggleComplete={toggleComplete}
+          increaseQuantity={increaseQuantity}
+          decreaseQuantity={decreaseQuantity}
+        />
+        <div className="total">Total: {totalItemCount}</div>
       </div>
     </div>
   );
